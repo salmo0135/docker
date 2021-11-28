@@ -1,0 +1,26 @@
+FROM node:14
+
+RUN useradd -m -d /backend backend
+USER backend
+RUN git clone https://github.com/bezkoder/nodejs-express-sequelize-mysql.git /backend/backend
+WORKDIR /backend/backend/app
+RUN npm install
+COPY db.config.js /backend/backend/app/config/
+COPY tutorials.service /etc/systemd/system/  
+
+USER root
+RUN apt-get update -y
+RUN apt-get install -y default-mysql-client
+
+ENV DB_HOST="localhost"
+ENV DB_USER="backend"
+ENV DB_NAME="tutorials"
+ENV DB_PASSWORD="password"
+
+
+COPY start.sh /
+
+
+EXPOSE 8080
+
+CMD ["/bin/bash","/start.sh"]

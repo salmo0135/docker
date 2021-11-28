@@ -1,0 +1,15 @@
+FROM mysql:5.7
+
+# needed for intialization
+
+ENV MYSQL_DATABASE=tutorials
+ENV MYSQL_USER=tutorials
+ENV MYSQL_PASSWORD=password
+ENV MYSQL_ROOT_PASSWORD=root
+
+RUN sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
+
+
+EXPOSE 3306
+
+
